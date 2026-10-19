@@ -91,7 +91,16 @@ that plan is written.
 Then scaffold it:
 - Create a React Native Expo project in TypeScript using Expo Router with a
   bottom tab navigator containing exactly three tabs: Match, Hitchhike, Play.
-  Match is the initial route.
+  Match is the initial route. These names are fixed product terms with these
+  exact meanings — do not reinterpret them:
+  - Match: swipe through nearby golfers whose handicap is close to yours. A
+    mutual like creates a match and opens a chat.
+  - Hitchhike: browse open tee times other golfers have posted and request to
+    join one. "Hitchhike" means joining someone else's tee time. It is NOT
+    transport — there is no ride, carpool, origin, destination, or seats
+    anywhere in this product.
+  - Play: the confirmed rounds you are in, and the golfers you are playing
+    with.
 - Add constants/theme.ts exporting the brand tokens as named constants:
   colors (navy #0A1F44, blue #123C7A, yellow #FFD400, offwhite #F7F8FA,
   ink #0B1220, plus muted, border, success, danger), spacing scale
@@ -112,10 +121,57 @@ accent from the token file.
 
 ---
 
+### Correction 1a — run this if Bolt misread the tab names
+
+Bolt infers product meaning from tab names, and "Hitchhike" is a trap: it will
+assume transport. If its plan, icons, or screen copy mention a ride, driver,
+passenger, carpool, origin, destination, or seats — or if it gives Play the
+tee-time list — run this scoped correction before sending prompt 2.
+
+```
+Correction to the scaffold. The tab names are fixed product terms and two of
+them were misread, so the placeholder copy and plan are wrong. Do not rebuild
+the scaffold — make only these changes.
+
+The meanings, which are not negotiable:
+- Match: swipe through nearby golfers whose handicap is close to yours. A
+  mutual like creates a match and opens a chat.
+- Hitchhike: browse open tee times posted by other golfers and request to join
+  one. It means joining someone else's tee time. It has nothing to do with
+  transport — no ride, carpool, driver, passenger, origin, destination, or
+  seats exists in this product.
+- Play: the confirmed rounds you are in, and the golfers you are playing with.
+
+Make exactly these changes:
+1. Remove from your plan every ride-related entity or concept (ride offer,
+   ride request, origin, destination, seats). Nothing like that exists here.
+2. Set the three tab placeholder descriptions to exactly these lines:
+   - Match: "Swipe through golfers near you with a similar handicap. A mutual
+     like starts a chat."
+   - Hitchhike: "Join an open tee time posted by another golfer."
+   - Play: "Your confirmed rounds and the golfers you're playing with."
+3. Replace the car icon on the Hitchhike tab with a flag icon. Give Play a
+   calendar icon. Keep Match as it is.
+4. Change nothing else — the theme tokens, SafeAreaView, and accessibility
+   work already done all stay.
+
+Then re-run the typecheck and the build and report the result.
+```
+
+**Done when:** no screen copy, icon, or entity refers to a ride, driver,
+passenger, or seats; the three descriptions match the lines above verbatim;
+`tsc --noEmit` and a web export still pass.
+
+---
+
 ## Prompt 2 — Data model and migrations
 
 ```
 Set up the Supabase data layer. Do not build any UI in this prompt.
+
+The schema below is the product. Hitchhike is joining another golfer's open tee
+time — it is not transport, so there is no ride, carpool, origin, destination,
+or seat anywhere in it. Discard any ride entity from an earlier plan of yours.
 
 Create a migration SQL file that defines these tables with row-level security
 enabled on all of them:
