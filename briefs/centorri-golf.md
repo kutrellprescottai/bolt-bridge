@@ -14,9 +14,13 @@ a time and confirm the **Done when** check before sending the next.
      build order, one feature per prompt, and verifying each step.
    - `accessibility-baseline` — turn this ON for the whole project. It governs
      contrast, focus states, keyboard paths, and semantics on every screen.
-2. Create a Supabase project (free tier is fine) and have its **Project URL**,
-   **anon key**, and **service-role key** ready. Bolt's Supabase integration
-   will ask for these.
+2. Create a Supabase project (free tier is fine). Have its **Project URL** and
+   **anon key** ready — those are the only two values the app needs, and they
+   are safe to use in a client. Bolt's paid Supabase integration is *not*
+   required: prompt 2 writes the client itself and reads these from env vars.
+   Never give Bolt the **service-role key**, put it in the app, or commit it
+   anywhere — it bypasses every row-level security policy. Edge Functions read
+   it from Supabase's own secrets, so it never leaves Supabase.
 3. Have an Expo Go app installed on a physical phone or a simulator ready.
 
 If a skill name is misspelled or absent from the dropdown, stop and fix the
