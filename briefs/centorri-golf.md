@@ -23,6 +23,18 @@ a time and confirm the **Done when** check before sending the next.
    it from Supabase's own secrets, so it never leaves Supabase.
 3. Have an Expo Go app installed on a physical phone or a simulator ready.
 
+**Settle the database before prompt 3.** Every new Bolt project gets a Bolt
+Database by default, on every plan, and Bolt will happily build the whole
+schema into it. If you want this app on your own Supabase project, connect it
+before authentication is built. Connecting Supabase replaces the Bolt database
+connection and requires a Pro or Teams plan; claiming a Bolt Database into
+Supabase also requires one. There is no supported flow in the other direction.
+Auth accounts are bound to whichever database holds them, so switching after
+sign-up strands every user. Confirm the target by checking that
+`EXPO_PUBLIC_SUPABASE_URL` in the project's secrets matches the project URL in
+your Supabase dashboard — if it does not, the migration went to the wrong
+database.
+
 If a skill name is misspelled or absent from the dropdown, stop and fix the
 import before starting — the build depends on both.
 
